@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sample</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+</head>
+<body>
+    <nav class="navbar navbar-light bg-light">
+        <span class="navbar-brand mb-0 h1">
+            <i class="fas fa-laptop-house"></i>
+            Sample Firestore Project
+        </span>
+      </nav>
+
+      <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+          <h1 class="display-4">Fluid jumbotron</h1>
+          <p class="lead">This is a modified jumbotron that occupies the entire horizontal space of its parent.</p>
+        </div>
+      </div>
+
+      <div class="row">
+          <div class="col-md-6">
+              <div class="m-3" >
+                <h5>New Product</h5>
+                  <div class="form-group">
+                    <input type="text" id="description" class="form-control" placeholder="Description">
+                  </div>
+                  <div class="form-group">
+                    <input type="text" id="price" class="form-control" placeholder="price">
+                  </div>
+                  <input type="button" class="btn btn-success" value="Save" onclick="saveNewProduct()"/>
+                </div>
+          </div>
+          <div class="col-md-6">
+            <h3 class="h3">Lists</h3>
+            <div id="lists"></div>
+          </div>
+      </div>
+
+
+<button id="btn" onclick="display()">Click Here</button>
+
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-firestore.js"></script>
+
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyDdWalBhDfF3D_wvNxLZgjjc2WIoZlrlOs",
+    authDomain: "sample-5c74b.firebaseapp.com",
+    databaseURL: "https://sample-5c74b.firebaseio.com",
+    projectId: "sample-5c74b",
+    storageBucket: "sample-5c74b.appspot.com",
+    messagingSenderId: "1094321795170",
+    appId: "1:1094321795170:web:f8f8dd5e2ab66c098a213b"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  let db = firebase.firestore();
+
+  let btn = document.getElementById("btn");
+  
+  let list= document.getElementById("lists");
+  let data =[]
+
+
+  let display =()=>{
+      db.collection("product").get().then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+              data.push(doc.data());
+            });
+        });
+        console.log(data);
+        alert(data);
+    }
+    let description = document.getElementById("description");
+    let price = document.getElementById("price");
+    let saveNewProduct=()=>{
+            db.collection("product").add({
+            description: description.value,
+            price: price.value
+            }).then(doc=>console.log(doc));
+        
+        display();
+    }
+</script>
+</body>
+</html>
